@@ -1,0 +1,6 @@
+#!/bin/bash
+NAME="$(basename ${0})"
+DIRNAME="$(dirname ${0})"
+EXT_BUILD_DIR="${DIRNAME%build/toolchain/muntjac-baremetal/wrappers}"
+TOOLCHAIN_BINDIR="${EXT_BUILD_DIR}external/muntjac_toolchain/bin"
+exec "${TOOLCHAIN_BINDIR}"/"riscv64-unknown-elf-${NAME}" "${@}"

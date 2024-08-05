@@ -1,0 +1,7 @@
+[submodule "third_party/muntjac"]
+	path = third_party/muntjac
+	url = https://github.com/filmil/muntjac
+	branch = cp
+[submodule "third_party/opensbi"]
+	path = third_party/opensbi
+	url = https://github.com/filmil/opensbi

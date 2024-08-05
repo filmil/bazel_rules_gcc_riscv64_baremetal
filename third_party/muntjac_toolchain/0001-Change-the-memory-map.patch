@@ -1,0 +1,29 @@
+From 44aa41d710a00f2f0514046004040aeb2ee7fc81 Mon Sep 17 00:00:00 2001
+From: Filip Filmar <fmil@google.com>
+Date: Fri, 9 Jun 2023 17:42:58 +0000
+Subject: [PATCH] Change the memory map
+
+---
+ riscv64-unknown-elf/lib/link.ld | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/riscv64-unknown-elf/lib/link.ld b/riscv64-unknown-elf/lib/link.ld
+index dff31cd..5875323 100644
+--- a/riscv64-unknown-elf/lib/link.ld
++++ b/riscv64-unknown-elf/lib/link.ld
+@@ -10,9 +10,9 @@ ENTRY(_start)
+    Muntjac's last-level cache and any relevant TileLink modules. */
+ MEMORY
+ {
+-   program (rwx)  : ORIGIN = 0x80000000, LENGTH = 0x10000
+-   uncached (rw)  : ORIGIN = 0x80010000, LENGTH = 0x40
+-   data (rw)      : ORIGIN = 0x80010040, LENGTH = 128M - 0x10040
++   uncached (rw)  : ORIGIN = 0x70010000, LENGTH = 0x40
++   program (rwx)  : ORIGIN = 0x80000000, LENGTH = 0x8000000 /* 128M */
++   data (rw)      : ORIGIN = 0x88000000, LENGTH = 0x8000000 /* 128M */
+ }
+ 
+ SECTIONS
+-- 
+2.41.0.162.gfafddb0af9-goog
+
