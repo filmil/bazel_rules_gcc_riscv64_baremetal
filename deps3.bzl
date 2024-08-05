@@ -35,9 +35,9 @@ def deps_stage_3():
     maybe(
         http_archive,
         name = "muntjac_toolchain",
-        build_file = "//build/toolchain/muntjac-baremetal:BUILD.muntjac_toolchain.bazel",
+        build_file = Label("//build/toolchain/muntjac-baremetal:BUILD.muntjac_toolchain.bazel"),
         patch_args = ["-p1"],
-        patches = ["//third_party/muntjac_toolchain:0001-Change-the-memory-map.patch"],
+        patches = [ Label("//third_party/muntjac_toolchain:0001-Change-the-memory-map.patch") ],
         sha256 = "0ce482d45783e0ea9aa986cafd5961de5f490068fd6c7d737b78b4366a3ff579",
         strip_prefix = "lowrisc-toolchain-rv64imac-20230228-1-muntjac",
         urls = [

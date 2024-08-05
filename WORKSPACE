@@ -16,5 +16,5 @@ load("//:deps3.bzl", "deps_stage_3")
 deps_stage_3()
 
 # This is the "new" toolchain registration approach.
-register_toolchains("//build/toolchain/muntjac-baremetal:muntjac_baremetal")
+register_toolchains("@bazel_rules_riscv64_baremetal//build/toolchain/muntjac-baremetal:muntjac_baremetal")
 
