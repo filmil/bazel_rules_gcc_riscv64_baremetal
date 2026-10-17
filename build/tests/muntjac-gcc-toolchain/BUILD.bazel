@@ -1,5 +1,7 @@
 load("@bazel_lib//lib:transitions.bzl", "platform_transition_binary")
 load("@bazel_skylib//rules:run_binary.bzl", "run_binary")
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+load("@rules_shell//shell:sh_test.bzl", "sh_test")
 
 cc_binary(
     name = "hello",
@@ -10,5 +12,11 @@ platform_transition_binary(
     name = "hello_rv64",
     binary = ":hello",
     target_platform = "//build/platforms:muntjac_baremetal",
+)
+
+sh_test(
+    name = "hello_rv64_test",
+    srcs = ["hello_rv64_test.sh"],
+    data = [":hello_rv64"],
 )
 

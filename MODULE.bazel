@@ -1,6 +1,19 @@
-###############################################################################
-# Bazel now uses Bzlmod by default to manage external dependencies.
-# Please consider migrating your external dependencies from WORKSPACE to MODULE.bazel.
-#
-# For more details, please check https://github.com/bazelbuild/bazel/issues/18958
-###############################################################################
+# SPDX-License-Identifier: Apache-2.0
+module(
+    name = "bazel_rules_riscv64_baremetal",
+    version = "0.0.1",
+)
+
+bazel_dep(name = "bazel_skylib", version = "1.9.0")
+bazel_dep(name = "platforms", version = "1.1.0")
+bazel_dep(name = "rules_cc", version = "0.2.18")
+bazel_dep(name = "rules_shell", version = "0.8.0")
+bazel_dep(name = "aspect_bazel_lib", version = "2.22.5", repo_name = "bazel_lib")
+bazel_dep(name = "rules_go", version = "0.63.0", repo_name = "io_bazel_rules_go")
+bazel_dep(name = "rules_android", version = "0.7.3")
+bazel_dep(name = "gazelle", version = "0.54.0", repo_name = "bazel_gazelle")
+
+baremetal_toolchains = use_extension("//:extensions.bzl", "baremetal_toolchains")
+use_repo(baremetal_toolchains, "muntjac_toolchain")
+
+register_toolchains("//build/toolchain/muntjac-baremetal:muntjac_baremetal")

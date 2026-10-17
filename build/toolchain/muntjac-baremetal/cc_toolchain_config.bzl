@@ -5,6 +5,7 @@ load("@bazel_tools//tools/cpp:cc_toolchain_config_lib.bzl",
     "flag_set",
     "tool_path",
 )
+load("@rules_cc//cc:defs.bzl", "CcToolchainConfigInfo", "cc_common")
 
 all_link_actions = [
     ACTION_NAMES.cpp_link_executable,
@@ -26,6 +27,10 @@ all_compile_actions = [
 ]
 
 def _impl(ctx):
+    specs_file = ctx.file._specs_file
+    specs_path = specs_file.path
+    sysroot_path = specs_path.replace("/lib/baremetal.specs", "")
+
     tool_paths = [
         tool_path(
             name = "ar",
@@ -74,8 +79,8 @@ def _impl(ctx):
                 flag_groups = [
                     flag_group(
                         flags = [
-                            "-specs", "external/muntjac_toolchain/riscv64-unknown-elf/lib/baremetal.specs",
-                            "--sysroot=external/muntjac_toolchain/riscv64-unknown-elf",
+                            "-specs", specs_path,
+                            "--sysroot=" + sysroot_path,
                             "-no-canonical-prefixes",
                             "-fno-canonical-system-headers",
                             "-Wno-builtin-macro-redefined",
@@ -98,8 +103,8 @@ def _impl(ctx):
                 flag_groups = ([
                     flag_group(
                         flags = [
-                            "-specs", "external/muntjac_toolchain/riscv64-unknown-elf/lib/baremetal.specs",
-                            "--sysroot=external/muntjac_toolchain/riscv64-unknown-elf",
+                            "-specs", specs_path,
+                            "--sysroot=" + sysroot_path,
                         ],
                     ),
                 ]),
@@ -133,6 +138,11 @@ def _impl(ctx):
 
 cc_toolchain_config = rule(
     implementation = _impl,
-    attrs = {},
+    attrs = {
+        "_specs_file": attr.label(
+            default = "@muntjac_toolchain//:riscv64-unknown-elf/lib/baremetal.specs",
+            allow_single_file = True,
+        ),
+    },
     provides = [CcToolchainConfigInfo, platform_common.TemplateVariableInfo],
 )

@@ -10,4 +10,12 @@ if [[ "${EXT_BUILD_DIR}" == *"external/"* ]]; then
     EXT_BUILD_DIR=""
 fi
 TOOLCHAIN_BINDIR="${EXT_BUILD_DIR}external/muntjac_toolchain/bin"
+if [[ ! -x "${TOOLCHAIN_BINDIR}/riscv64-unknown-elf-${base_filename}" ]]; then
+    for cand in "${EXT_BUILD_DIR}external/"*muntjac_toolchain/bin; do
+        if [[ -x "${cand}/riscv64-unknown-elf-${base_filename}" ]]; then
+            TOOLCHAIN_BINDIR="${cand}"
+            break
+        fi
+    done
+fi
 exec "${TOOLCHAIN_BINDIR}"/"riscv64-unknown-elf-${base_filename}" "${@}"
